@@ -34,7 +34,7 @@ TL_positions = [(random.randint(0, WINDOW_WIDTH), random.randint(0, WINDOW_HEIGH
 #E46
 bmw_surf = pygame.image.load(join(imagepath, 'e46game.png')).convert_alpha()
 bmw_rect = bmw_surf.get_frect(topleft = (10,WINDOW_HEIGHT / 2))
-bmw_direction = pygame.math.Vector2(1, -1)
+bmw_direction = pygame.math.Vector2(1, 1)
 bmw_speed = 2
 
 #BEE
@@ -52,6 +52,12 @@ while running:
             running = False    
 
     #player movement
+    if bmw_rect.bottom > WINDOW_HEIGHT or bmw_rect.top < 0:
+        bmw_direction.y *= -1
+    
+    if bmw_rect.right > WINDOW_WIDTH or bmw_rect.left < 0:
+        bmw_direction.x *= -1
+        
     bmw_rect.center += bmw_direction * adjustedspeed
     
     
