@@ -23,39 +23,39 @@ surf.fill('green')
 chalX = 1
 chalY = 200
 
-# CHALLENGER : importing image 
-challenger_surf = pygame.image.load(join(imagepath, 'challenger.png')).convert_alpha()
-challenger_rect = challenger_surf.get_frect(center = (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2))
-
 #TL 
 TL_surf = pygame.image.load(join(imagepath, 'acuratl.png')).convert_alpha()
-bee_surf = pygame.image.load(join(imagepath, 'bee.png')).convert_alpha()
-tlX = 1
+TL_rect = TL_surf.get_frect(center = (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2))
+
 TL_positions = [(random.randint(0, WINDOW_WIDTH), random.randint(0, WINDOW_HEIGHT)) for i in range(50)]
 
 #E46
 bmw_surf = pygame.image.load(join(imagepath, 'e46game.png')).convert_alpha()
-bmwX = 1
-bmwY = 1
-
-
+bmw_rect = bmw_surf.get_frect(topleft = (10,WINDOW_HEIGHT / 2))
+bmw_direction = 1
+bmw_speed = 7
+#BEE
+bee_surf = pygame.image.load(join(imagepath, 'bee.png')).convert_alpha()
+bee_rect = bee_surf.get_frect(bottomleft = (20 , WINDOW_HEIGHT - 20))
 while running:
     # EVENT LOOP
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False    
 
-    #change rates
-    chalX += 0.1
-    bmwX += 0.09
-    tlX += 0.13
-
+    #player movement
+    bmw_rect.x += bmw_direction * bmw_speed
     
-    display_surface.fill('darkgray')
-    for xy in TL_positions:
-        display_surface.blit(TL_surf, xy)
-    display_surface.blit(challenger_surf, (chalX,chalY))
-    display_surface.blit(bmw_surf, (bmwX, bmwY))
+    if bmw_rect.left == 0:
+        bmw_direction = 1
+    if bmw_rect.right > WINDOW_WIDTH or bmw_rect.left < 0:
+        bmw_direction *= -1
+    
+    display_surface.fill('black')
+    
+    #display_surface.blit(TL_surf, TL_rect)
+    display_surface.blit(bmw_surf, bmw_rect)
+    display_surface.blit(bee_surf, bee_rect)
     
 
     pygame.display.update()
